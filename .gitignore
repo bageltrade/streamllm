@@ -1,0 +1,7 @@
+engine
+*.o
+*.bin
+kv*.bin
+models/
+*.gguf
+.DS_Store
