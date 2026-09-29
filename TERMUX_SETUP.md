@@ -1,5 +1,36 @@
 # streamllm — Termux Setup Guide
 
+
+## 0. Real chat (recommended): llama.cpp + your GGUF
+
+streamllm alone does **not** run neural net matmul. For **real replies** from
+`Qwen3.5-4B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf`:
+
+```bash
+pkg install -y git cmake clang make libandroid-spawn
+cd ~
+git clone https://github.com/ggml-org/llama.cpp.git
+cd llama.cpp
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DGGML_OPENMP=OFF
+cmake --build build -j$(nproc 2>/dev/null || echo 4)
+
+export MODEL=~/storage/downloads/Qwen3.5-4B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf
+# fix path if needed
+
+~/llama.cpp/build/bin/llama-cli -m "$MODEL" -cnv -c 4096 -n 256 -t 4 -ngl 0
+```
+
+Or from this repo after `git pull`:
+
+```bash
+cd ~/streamllm && git pull
+./scripts/chat_real.sh "$MODEL"
+```
+
+Details: [docs/LLAMA_CPP_INTEGRATION.md](docs/LLAMA_CPP_INTEGRATION.md)
+
+---
+
 Disk-streaming LLM engine. Runs models larger than RAM by streaming weights from storage.
 Tested: 8B GGUF on 1.2 GB RAM host with ~35 MB process RSS.
 

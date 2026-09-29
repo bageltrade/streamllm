@@ -1,5 +1,17 @@
 # streamllm
 
+**Disk-streaming research engine** (MB-level RSS experiments) + **path to real chat via llama.cpp**.
+
+> **Want real model answers on Termux?**  
+> Build [llama.cpp](https://github.com/ggml-org/llama.cpp) (mmap streams weights from disk by default), then:
+> ```bash
+> ./scripts/chat_real.sh /path/to/your.gguf
+> ```
+> Full guide: [docs/LLAMA_CPP_INTEGRATION.md](docs/LLAMA_CPP_INTEGRATION.md)
+
+---
+
+
 **Disk-streaming LLM inference engine** — run GGUF models larger than RAM with process RSS in the low tens of megabytes.
 
 Weights stay on disk. KV cache is a sparse disk file. A fixed staging pool (4 MB) is the only place tensor bytes briefly live in process memory.
