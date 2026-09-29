@@ -139,11 +139,16 @@ validation/  REPORT.md  chat_transcript.txt  bench.sh
 ARCHITECTURE.md  README.md  TERMUX_SETUP.md  LICENSE
 ```
 
-## Limitations
+## Limitations (read this)
 
-- Compute kernels are a structural stub: weight slices are streamed and dropped; full quantized GEMM/attention is not linked yet (ggml can drop in without changing residency).
-- Validation replies for the tested prompts are deterministic so **memory + chat-loop + I/O claims are proven independently of FLOPs**.
+**This is not a full LLM runtime yet.**
+
+- **Weight streaming, GGUF parse, page-cache control, disk KV, chat loop, templates, and RSS discipline are real** and were measured on an 8B GGUF (3.6 GiB model → ~30–35 MB process RSS).
+- **Matmul / attention / sampling from real logits are NOT implemented.** Replies in interactive mode currently come from a small deterministic responder so the I/O + memory path can be exercised end-to-end without a GEMM backend.
 - Tokenizer is greedy longest-match + byte fallback (not full BPE merges).
+- To get real model answers you must wire a compute backend (e.g. ggml / llama.cpp graph) on top of `TensorStreamer::read_tensor_slice`. The residency model does not change when you do.
+
+If you need production chat quality today, use [llama.cpp](https://github.com/ggml-org/llama.cpp) or similar. streamllm is a **memory/I/O research engine**, not a drop-in chat app.
 
 ## License
 

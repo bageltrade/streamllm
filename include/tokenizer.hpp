@@ -1,3 +1,4 @@
+#include "termux_compat.hpp"
 // Tokenizer + chat template — contracts from llama.cpp src/llama-vocab.cpp & llama-chat.cpp
 #pragma once
 #include "gguf.hpp"

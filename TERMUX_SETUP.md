@@ -41,7 +41,10 @@ cd ~/streamllm
 
 ```bash
 cd ~/streamllm
-clang++ -O3 -std=c++17 -Wall -o engine src/engine.cpp -lpthread
+# Preferred:
+make termux
+# Or manually (important: -lc++ on Termux):
+clang++ -O3 -std=c++17 -Wall -Iinclude -o engine src/engine.cpp -lc++ -lpthread
 chmod +x engine
 ./engine --version
 ./engine --help
@@ -49,7 +52,10 @@ chmod +x engine
 
 If `clang++` is missing: `pkg install clang`.
 
-On some devices `-march=native` can miscompile; the command above omits it on purpose for Termux.
+**Termux link error `undefined symbol: std::__ndk1::__hash_memory`:**
+use the `make termux` recipe or add `-lc++` as above. Also `pkg upgrade clang libc++` if the package is old.
+
+On some devices `-march=native` can miscompile; recipes omit it on purpose for Termux.
 
 ## 4. Download a GGUF model
 

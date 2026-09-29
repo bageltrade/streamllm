@@ -1,3 +1,4 @@
+#include "termux_compat.hpp"
 // GGUF parser — contracts derived from llama.cpp src/llama-model-loader.cpp
 // Metadata-only: never reads tensor bytes during load.
 #pragma once

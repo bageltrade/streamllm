@@ -1,3 +1,4 @@
+#include "termux_compat.hpp"
 // TensorStreamer v2 — ultra-low RSS, hard page-cache cap, dual mmap/direct
 #pragma once
 #include "gguf.hpp"

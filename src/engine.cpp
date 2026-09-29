@@ -2,6 +2,7 @@
 // Streaming / residency / KV-disk are original.
 // GGUF / tokenizer / chat-template contracts derived from llama.cpp
 // (src/llama-model-loader.cpp, src/llama-vocab.cpp, src/llama-chat.cpp, examples/simple-chat).
+#include "termux_compat.hpp"
 #include "../include/gguf.hpp"
 #include "../include/streamer.hpp"
 #include "../include/kv_disk.hpp"
@@ -83,8 +84,9 @@ static void usage(const char* argv0) {
     printf("\nExit codes: 0 ok, 1 usage, 2 model load, 3 OOM, 4 I/O, 5 template\n");
 }
 
-// Extremely small “inference” stub that still exercises the full I/O + chat path.
-// For a real matmul engine we would link ggml; here we demonstrate:
+// STUB INFERENCE PATH — I/O + chat only. No quantized matmul.
+// For real answers, link ggml (or similar) on top of TensorStreamer.
+// Demonstrates:
 //   - metadata-only load
 //   - streaming tensor reads through TensorStreamer
 //   - disk KV append / eviction
@@ -161,7 +163,8 @@ static std::string generate_reply(const std::string& user,
 
     double ttft = (Telemetry::now_us() - t0) / 1000.0;
 
-    // Coherent replies across many prompt types (exercises template + I/O path)
+    // STUB RESPONDER — not model output. Exercises template + streamer + KV only.
+    // Real logits require a GEMM backend on top of TensorStreamer.
     std::string lower = user;
     for (auto& c : lower) c = (char)tolower((unsigned char)c);
     std::string reply;
